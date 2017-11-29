@@ -8,13 +8,19 @@ Very much work in progress...
 
 - Use html flexibly to manage charts
 
+```javascript
+import VisualistPlugin from 'visualist/src/plugin';
+
+Vue.use(VisualistPlugin, {prefix: 'Vst'});
 ```
-<chart :data="{x: 1, y: 2}">
-  <y-axis>
-  <x-axis>
-  <line-chart>
-  <tooltip></tooltip>
-</chart>
+
+```html
+<vst-chart :data="[{x: 0, y:1}, {x: 1, y: 2}, {x:2, y:4}]">
+  <vst-y-axis></vst-y-axis>
+  <vst-x-axis></vst-x-axis>
+  <vst-line-chart></vst-line-chart>
+  <vst-tooltip></tooltip>
+</vst-chart>
 ```
 
 - Have always also data table available to show the underlying data
