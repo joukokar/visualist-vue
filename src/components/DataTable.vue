@@ -1,30 +1,31 @@
 <template>
-  <table>
-    <thead>
-      <th>x</th>
-      <th>y</th>
-      <th>y2</th>
-    </thead>
-    <tbody>
-      <tr v-for="(d, i) in data" :key="d.x">
-        <td>
-          {{d.x}}
-        </td>
-        <td>
-          {{d.y}}
-        </td>
-        <td>
-          {{d.y2}}
-        </td>
-        <td>
-          <button @click="removeAt(i)">delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table>
+      <thead>
+        <th v-for="key in getAllKeys()" :key="key">
+          {{key}}
+        </th>
+      </thead>
+      <tbody>
+        <tr v-for="(d, i) in data" :key="d.x">
+          <td v-for="key in getAllKeys()" :key="key">
+            {{d[key]}}
+          </td>
+          <td>
+            <button @click="removeAt(i)">delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
+import map from 'lodash/map';
+import flatten from 'lodash/flatten';
+import keys from 'lodash/keys';
+import uniq from 'lodash/uniq';
+
 export default {
   name: 'data-table',
   props: ['data'],
@@ -41,6 +42,11 @@ export default {
   methods: {
     removeAt(index) {
       this.data.splice(index, 1);
+    },
+
+    getAllKeys() {
+      const allKeys = map(this.data, d => keys(d));
+      return uniq(flatten(allKeys));
     },
   },
 
