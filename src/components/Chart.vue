@@ -9,15 +9,19 @@
         <slot></slot>
       </svg>
 
-      <data-table v-if="viewTypes.table" :data="data">
+      <data-table v-if="viewTypes.table" :data="dataObject">
       </data-table>
     </div>
   </div>
 </template>
 
 <script>
-import map from 'lodash/map';
+import each from 'lodash/each';
 import find from 'lodash/find';
+import flatten from 'lodash/flatten';
+import keys from 'lodash/keys';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 import * as d3 from 'd3';
 import DataTable from './DataTable';
 
@@ -44,7 +48,8 @@ export default {
   },
 
   updated() {
-    this.fillNA();
+    // TODO: add flag to do this only once
+    // this.fillNA();
     this.updateSvg();
   },
 
@@ -58,19 +63,34 @@ export default {
       this.viewTypes[type] = !this.viewTypes[type];
     },
 
+    // TODO: move this elsewhere
     fillNA() {
       const xValues = map(this.data, d => d.x);
       const xExtent = d3.extent(xValues);
       this.dataObject = [];
 
+      const allKeys = this.getAllKeys(this.data);
+
       for (let i = xExtent[0]; i < xExtent[1]; i += 1) {
         const existingObject = find(this.data, d => d.x === i);
-        let nextObject = existingObject;
-        if (!existingObject) {
-          nextObject = { x: i, y: 0, y2: 0 };
+        let newObject = existingObject;
+        if (!newObject) {
+          newObject = { x: i };
         }
-        this.dataObject.push(nextObject);
+
+        each(allKeys, (key) => {
+          if (!newObject[key]) {
+            newObject[key] = 0;
+          }
+        });
+        this.dataObject.push(newObject);
       }
+    },
+
+    // TODO: move this elsewhere
+    getAllKeys(data) {
+      const keysInData = map(data, d => keys(d));
+      return uniq(flatten(keysInData));
     },
 
     renderSvg() {
