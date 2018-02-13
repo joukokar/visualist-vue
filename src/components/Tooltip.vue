@@ -30,8 +30,8 @@ export default {
           .append('div');
 
         tooltip.attr('class', 'tooltip-container')
-          .attr('display', 'none')
-          .text('hello');
+          .style('display', 'none')
+          .text('');
 
         const xScale = this.$parent.xScale;
         const tooltipLayer = d3.select(this.$el);

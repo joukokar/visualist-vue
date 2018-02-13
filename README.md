@@ -19,7 +19,7 @@ Vue.use(VisualistPlugin, {prefix: 'Vst'});
   <vst-y-axis></vst-y-axis>
   <vst-x-axis></vst-x-axis>
   <vst-line-chart></vst-line-chart>
-  <vst-tooltip></tooltip>
+  <vst-tooltip></vst-tooltip>
 </vst-chart>
 ```
 

@@ -27,7 +27,23 @@ import DataTable from './DataTable';
 
 export default {
   name: 'chart',
-  props: ['data'],
+  props: {
+    data: {
+      type: Array,
+      default: [
+        { x: 1, y: 1 },
+      ],
+    },
+    paddings: {
+      type: Object,
+      default: () => ({
+        top: 20,
+        bottom: 50,
+        left: 50,
+        right: 20,
+      }),
+    },
+  },
   components: { DataTable },
 
   data() {
@@ -35,27 +51,29 @@ export default {
       viewTypes: { svg: true, table: true },
       xScale: null,
       yScale: null,
-      paddings: {
-        top: 20,
-        bottom: 50,
-        left: 50,
-        right: 20,
-      },
       height: 400,
       width: 600,
+      lastData: [],
       dataObject: [],
     };
   },
 
   updated() {
     // TODO: add flag to do this only once
-    // this.fillNA();
+    if (this.data !== this.lastData) {
+      this.fillNA();
+      this.lastData = this.data;
+    }
     this.updateSvg();
   },
 
   mounted() {
+    // const svgElement = this.$el.querySelector('svg');
+    // svgElement.setAttribute('width', this.$parent.$el.offsetWidth);
+    // svgElement.setAttribute('height', this.$parent.$el.offsetHeight);
     this.renderSvg();
     this.fillNA();
+    this.$on('visualist:update', this.renderSvg);
   },
 
   methods: {
@@ -94,6 +112,8 @@ export default {
     },
 
     renderSvg() {
+      this.width = this.$parent.$el.offsetWidth;
+      this.height = this.$parent.$el.offsetHeight;
       const svgElement = this.$el.querySelector('svg');
       d3.select(svgElement)
         .attr('width', this.width)
@@ -122,7 +142,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 svg {
   margin: 1em;
   background-color: white;
