@@ -1,8 +1,7 @@
 <template>
   <div class="chart-container">
-    Chart
-    <button @click="setViewType('svg')">svg</button>
-    <button @click="setViewType('table')">table</button>
+    <button class="vst-btn" @click="setViewType('svg')">Svg</button>
+    <button class="vst-btn" @click="setViewType('table')">Table</button>
 
     <div>
       <svg v-show="viewTypes.svg">
@@ -147,6 +146,13 @@ svg {
   margin: 1em;
   background-color: white;
   box-shadow: 0px 0px 8px 8px #eee;
+}
+
+.vst-btn {
+  background-color: #88aafe;
+  color: white;
+  padding: 12px 20px;
+  border: 0px;
 }
 
 </style>
