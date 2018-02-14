@@ -1,6 +1,7 @@
 <template>
   <div class="visualist">
     <h1>Visualist</h1>
+    {{data.length}}
     <chart :data="data">
       <x-axis></x-axis>
       <y-axis></y-axis>
@@ -11,13 +12,17 @@
       <scatter-plot data-key="y2"></scatter-plot>
       <tooltip></tooltip>
     </chart>
-    <button @click="update">Add</button>
+    <button @click="update">Update</button>
+    <button @click="add">Add</button>
   </div>
 </template>
 
 <script>
 import each from 'lodash/each';
+import map from 'lodash/map';
+import range from 'lodash/range';
 import * as d3 from 'd3';
+import moment from 'moment';
 import Chart from './Chart';
 import XAxis from './XAxis';
 import YAxis from './YAxis';
@@ -40,19 +45,24 @@ export default {
     Tooltip,
   },
   data() {
+    const r = range(1, 15);
     return {
-      data: [
-        { x: 0, y: 1, y2: Math.random() * 5 },
-        { x: 1, y: 5, y2: Math.random() * 10 },
-        { x: 2, y: 3, y2: Math.random() * 10 },
-        { x: 3, y: 8, y2: Math.random() * 5 },
-        { x: 4, y: 13, y2: Math.random() * 10 },
-        { x: 5, y: 4, y2: Math.random() * 10 },
-        { x: 6, y: 7, y2: Math.random() * 5 },
-        { x: 9, y: 9, y2: Math.random() * 5 },
-        { x: 11, y: 7, y2: Math.random() * 5 },
-        { x: 14, y: 11, y2: Math.random() * 5 },
-      ],
+      data: map(r, (i) => {
+        const y2 = Math.random() * 5;
+        return { $$index: i, x: moment().subtract(20 - i, 'days').startOf('day').toDate(), y: i, y2 };
+      }),
+      // [
+        // { x: 0, y: 1, y2: },
+        // { x: 1, y: 5, y2: Math.random() * 10 },
+        // { x: 2, y: 3, y2: Math.random() * 10 },
+        // { x: 3, y: 8, y2: Math.random() * 5 },
+        // { x: 4, y: 13, y2: Math.random() * 10 },
+        // { x: 5, y: 4, y2: Math.random() * 10 },
+        // { x: 6, y: 7, y2: Math.random() * 5 },
+        // { x: 9, y: 9, y2: Math.random() * 5 },
+        // { x: 11, y: 7, y2: Math.random() * 5 },
+        // { x: 14, y: 11, y2: Math.random() * 5 },
+      // ],
     };
   },
 
@@ -76,10 +86,14 @@ export default {
           d.y2 = 0;
         }
       });
+    },
 
+    add() {
       const maxX = d3.max(this.data, d => d.x);
+      const maxI = d3.max(this.data, d => d.$$index);
       this.data.push({
-        x: maxX + (Math.floor(Math.random() * 5) + 1),
+        $$index: maxI + 1,
+        x: moment(maxX).add(1, 'days').toDate(),
         y: Math.random() * 30,
         y2: Math.random() * 5,
       });

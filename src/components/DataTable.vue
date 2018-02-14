@@ -2,13 +2,13 @@
   <div>
     <table>
       <thead>
-        <th v-for="key in getAllKeys()" :key="key">
+        <th v-for="key in getAllKeys(data)" :key="key">
           {{key}}
         </th>
       </thead>
       <tbody>
-        <tr v-for="(d, i) in data" :key="d.x">
-          <td v-for="key in getAllKeys()" :key="key">
+        <tr v-for="(d, i) in data" :key="d.$$index">
+          <td v-for="key in getAllKeys(data)" :key="key">
             {{d[key]}}
           </td>
           <td>
@@ -17,14 +17,12 @@
         </tr>
       </tbody>
     </table>
+    {{data.length}}
   </div>
 </template>
 
 <script>
-import map from 'lodash/map';
-import flatten from 'lodash/flatten';
-import keys from 'lodash/keys';
-import uniq from 'lodash/uniq';
+import VstData from '@/data/data';
 
 export default {
   name: 'data-table',
@@ -44,10 +42,7 @@ export default {
       this.data.splice(index, 1);
     },
 
-    getAllKeys() {
-      const allKeys = map(this.data, d => keys(d));
-      return uniq(flatten(allKeys));
-    },
+    getAllKeys: VstData.getAllKeys,
   },
 
 };

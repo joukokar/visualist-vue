@@ -5,6 +5,8 @@
 <script>
 import * as d3 from 'd3';
 
+const formatTime = d3.timeFormat('%Y-%m-%d');
+
 export default {
   name: 'x-axis',
   props: ['data'],
@@ -36,7 +38,10 @@ export default {
           // from parent when it's ready?
           return;
         }
-        const xAxis = d3.axisBottom().scale(this.$parent.xScale);
+        const xAxis = d3.axisBottom()
+          .scale(this.$parent.xScale)
+          .tickFormat(formatTime);
+
         d3.select(this.$el)
           .attr('transform', `translate(0, ${this.$parent.height - this.$parent.paddings.bottom})`)
           .call(xAxis);
@@ -44,7 +49,9 @@ export default {
     },
 
     updateAxis() {
-      const xAxis = d3.axisBottom().scale(this.$parent.xScale);
+      const xAxis = d3.axisBottom()
+        .scale(this.$parent.xScale)
+        .tickFormat(formatTime);
       d3.select(this.$el)
         .transition()
         .duration(1000)

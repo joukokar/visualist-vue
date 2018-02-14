@@ -15,13 +15,8 @@
 </template>
 
 <script>
-import each from 'lodash/each';
-import find from 'lodash/find';
-import flatten from 'lodash/flatten';
-import keys from 'lodash/keys';
-import map from 'lodash/map';
-import uniq from 'lodash/uniq';
 import * as d3 from 'd3';
+import VstData from '@/data/data';
 import DataTable from './DataTable';
 
 export default {
@@ -57,57 +52,29 @@ export default {
     };
   },
 
-  updated() {
-    // TODO: add flag to do this only once
-    if (this.data !== this.lastData) {
-      this.fillNA();
-      this.lastData = this.data;
-    }
-    this.updateSvg();
-  },
-
   mounted() {
     // const svgElement = this.$el.querySelector('svg');
     // svgElement.setAttribute('width', this.$parent.$el.offsetWidth);
     // svgElement.setAttribute('height', this.$parent.$el.offsetHeight);
     this.renderSvg();
-    this.fillNA();
+    VstData.createIndexes(this.data);
+    this.dataObject = VstData.fillNA(this.data);
     this.$on('visualist:update', this.renderSvg);
+  },
+
+  updated() {
+    // TODO: add flag to do this only once
+    if (this.data !== this.lastData) {
+      VstData.createIndexes(this.data);
+      this.dataObject = VstData.fillNA(this.data);
+      this.lastData = this.data;
+    }
+    this.updateSvg();
   },
 
   methods: {
     setViewType(type) {
       this.viewTypes[type] = !this.viewTypes[type];
-    },
-
-    // TODO: move this elsewhere
-    fillNA() {
-      const xValues = map(this.data, d => d.x);
-      const xExtent = d3.extent(xValues);
-      this.dataObject = [];
-
-      const allKeys = this.getAllKeys(this.data);
-
-      for (let i = xExtent[0]; i < xExtent[1]; i += 1) {
-        const existingObject = find(this.data, d => d.x === i);
-        let newObject = existingObject;
-        if (!newObject) {
-          newObject = { x: i };
-        }
-
-        each(allKeys, (key) => {
-          if (!newObject[key]) {
-            newObject[key] = 0;
-          }
-        });
-        this.dataObject.push(newObject);
-      }
-    },
-
-    // TODO: move this elsewhere
-    getAllKeys(data) {
-      const keysInData = map(data, d => keys(d));
-      return uniq(flatten(keysInData));
     },
 
     renderSvg() {
