@@ -2,8 +2,8 @@
   <div class="visualist">
     <h1>Visualist</h1>
     {{data.length}}
-    <chart :data="data">
-      <x-axis></x-axis>
+    <chart :data="data" :controls="true">
+      <x-axis :date="true"></x-axis>
       <y-axis></y-axis>
       <area-chart data-key="y2"></area-chart>
       <line-chart data-key="y"></line-chart>
@@ -14,6 +14,19 @@
     </chart>
     <button @click="update">Update</button>
     <button @click="add">Add</button>
+
+    <hr>
+
+    <chart :data="data2">
+      <x-axis></x-axis>
+      <y-axis></y-axis>
+      <area-chart data-key="y2"></area-chart>
+      <line-chart data-key="y"></line-chart>
+      <bar-chart data-key="y"></bar-chart>
+      <scatter-plot data-key="y"></scatter-plot>
+      <scatter-plot data-key="y2"></scatter-plot>
+      <tooltip></tooltip>
+    </chart>
   </div>
 </template>
 
@@ -51,18 +64,18 @@ export default {
         const y2 = Math.random() * 5;
         return { $$index: i, x: moment().subtract(20 - i, 'days').startOf('day').toDate(), y: i, y2 };
       }),
-      // [
-        // { x: 0, y: 1, y2: },
-        // { x: 1, y: 5, y2: Math.random() * 10 },
-        // { x: 2, y: 3, y2: Math.random() * 10 },
-        // { x: 3, y: 8, y2: Math.random() * 5 },
-        // { x: 4, y: 13, y2: Math.random() * 10 },
-        // { x: 5, y: 4, y2: Math.random() * 10 },
-        // { x: 6, y: 7, y2: Math.random() * 5 },
-        // { x: 9, y: 9, y2: Math.random() * 5 },
-        // { x: 11, y: 7, y2: Math.random() * 5 },
-        // { x: 14, y: 11, y2: Math.random() * 5 },
-      // ],
+      data2: [
+        { x: 0, y: 1, y2: Math.random() * 5 },
+        { x: 1, y: 5, y2: Math.random() * 10 },
+        { x: 2, y: 3, y2: Math.random() * 10 },
+        { x: 3, y: 8, y2: Math.random() * 5 },
+        { x: 4, y: 13, y2: Math.random() * 10 },
+        { x: 5, y: 4, y2: Math.random() * 10 },
+        { x: 6, y: 7, y2: Math.random() * 5 },
+        { x: 9, y: 9, y2: Math.random() * 5 },
+        { x: 11, y: 7, y2: Math.random() * 5 },
+        { x: 14, y: 11, y2: Math.random() * 5 },
+      ],
     };
   },
 

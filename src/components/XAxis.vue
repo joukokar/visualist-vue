@@ -9,7 +9,7 @@ const formatTime = d3.timeFormat('%Y-%m-%d');
 
 export default {
   name: 'x-axis',
-  props: ['data'],
+  props: ['data', 'date'],
 
   data() {
     return {
@@ -39,8 +39,11 @@ export default {
           return;
         }
         const xAxis = d3.axisBottom()
-          .scale(this.$parent.xScale)
-          .tickFormat(formatTime);
+          .scale(this.$parent.xScale);
+
+        if (this.date) {
+          xAxis.tickFormat(formatTime);
+        }
 
         d3.select(this.$el)
           .attr('transform', `translate(0, ${this.$parent.height - this.$parent.paddings.bottom})`)
@@ -50,8 +53,12 @@ export default {
 
     updateAxis() {
       const xAxis = d3.axisBottom()
-        .scale(this.$parent.xScale)
-        .tickFormat(formatTime);
+        .scale(this.$parent.xScale);
+
+      if (this.date) {
+        xAxis.tickFormat(formatTime);
+      }
+
       d3.select(this.$el)
         .transition()
         .duration(1000)
