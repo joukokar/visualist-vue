@@ -116,5 +116,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+svg {
+  margin: 1em;
+  box-shadow: 0px 0px 8px 8px #eee;
+}
 </style>

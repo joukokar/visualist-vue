@@ -125,9 +125,7 @@ export default {
 
 <style lang="scss" scoped>
 svg {
-  margin: 1em;
   background-color: white;
-  box-shadow: 0px 0px 8px 8px #eee;
 }
 
 .vst-btn {
