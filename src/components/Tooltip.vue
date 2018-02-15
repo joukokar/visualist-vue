@@ -73,10 +73,10 @@ export default {
           // xValue corresponding to mouse x
           const xValue = parentRef.xScale.invert(xCoordinate);
 
-          // const xValues = parentRef.dataObject.map(d => d.x);
-          const foundX = bisector(parentRef.dataObject, xValue);
+          // const xValues = parentRef.vstData.map(d => d.x);
+          const foundX = bisector(parentRef.vstData, xValue);
           const roundedXCoordinate = xScale(foundX);
-          const data = parentRef.dataObject.filter(d => d.x === foundX);
+          const data = parentRef.vstData.filter(d => d.x === foundX);
 
           if (data.length === 0) {
             tooltip.style('display', 'none');

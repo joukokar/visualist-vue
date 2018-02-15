@@ -16,7 +16,7 @@
         <slot></slot>
       </svg>
 
-      <data-table v-if="viewTypes.table" :data="dataObject">
+      <data-table v-if="viewTypes.table" :data="vstData">
       </data-table>
     </div>
   </div>
@@ -24,7 +24,7 @@
 
 <script>
 import * as d3 from 'd3';
-import VstData from '@/data/data';
+import VstData from '../data/data';
 import DataTable from './DataTable';
 
 export default {
@@ -63,14 +63,14 @@ export default {
       height: 400,
       width: 600,
       lastData: [],
-      dataObject: [],
+      vstData: [],
     };
   },
 
   mounted() {
     this.renderSvg();
     VstData.createIndexes(this.data);
-    this.dataObject = VstData.fillNA(this.data);
+    this.vstData = VstData.fillNA(this.data);
     this.$on('visualist:update', this.renderSvg);
   },
 
@@ -78,7 +78,7 @@ export default {
     // TODO: add flag to do this only once
     if (this.data !== this.lastData) {
       VstData.createIndexes(this.data);
-      this.dataObject = VstData.fillNA(this.data);
+      this.vstData = VstData.fillNA(this.data);
       this.lastData = this.data;
     }
     this.updateSvg();

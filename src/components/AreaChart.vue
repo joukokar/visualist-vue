@@ -22,8 +22,8 @@ export default {
   },
 
   watch: {
-    // eslint-disable-next-line
-    '$parent.dataObject': function () {
+    // eslint-disable-next-line func-names
+    '$parent.vstData': function () {
       this.$nextTick(() => {
         this.updateChart();
       });
@@ -46,7 +46,7 @@ export default {
 
     updateChart() {
       const pathEl = this.$el.querySelector('path');
-      const data = this.$parent.dataObject;
+      const data = this.$parent.vstData;
 
       if (!pathEl) {
         const lineChartGroup = d3.select(this.$el);

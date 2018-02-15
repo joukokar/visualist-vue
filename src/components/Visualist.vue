@@ -1,7 +1,6 @@
 <template>
   <div class="visualist">
     <h1>Visualist</h1>
-    {{data.length}}
     <chart :data="data" :controls="true">
       <x-axis :date="true"></x-axis>
       <y-axis></y-axis>
@@ -34,6 +33,7 @@
 import each from 'lodash/each';
 import map from 'lodash/map';
 import range from 'lodash/range';
+import merge from 'lodash/merge';
 import * as d3 from 'd3';
 import moment from 'moment';
 import Chart from './Chart';
@@ -110,6 +110,7 @@ export default {
         y: Math.random() * 30,
         y2: Math.random() * 5,
       });
+      this.data = merge([], this.data);
     },
   },
 };

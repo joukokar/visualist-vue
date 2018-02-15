@@ -17,12 +17,11 @@
         </tr>
       </tbody>
     </table>
-    {{data.length}}
   </div>
 </template>
 
 <script>
-import VstData from '@/data/data';
+import VstData from '../data/data';
 
 export default {
   name: 'data-table',

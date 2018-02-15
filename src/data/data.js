@@ -44,7 +44,7 @@ export default class VstData {
   static fillNA(data) {
     const xValues = map(data, d => VstData.getValue(d.x));
     const xExtent = d3.extent(xValues);
-    const dataObject = [];
+    const newData = [];
 
     const allKeys = VstData.getAllKeys(data);
 
@@ -62,9 +62,9 @@ export default class VstData {
           newObject[key] = 0;
         }
       });
-      dataObject.push(newObject);
+      newData.push(newObject);
     }
-    return dataObject;
+    return newData;
   }
 
   static getAllKeys(data) {
