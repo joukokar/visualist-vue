@@ -1,7 +1,15 @@
 <template>
   <div class="chart-container">
-    <button class="vst-btn" @click="setViewType('svg')">Svg</button>
-    <button class="vst-btn" @click="setViewType('table')">Table</button>
+    <div v-if="controls">
+      <button
+        class="vst-btn"
+        :class="{'vst-btn-disabled': !viewTypes.svg}"
+        @click="setViewType('svg')">Svg</button>
+      <button
+        class="vst-btn"
+        :class="{'vst-btn-disabled': !viewTypes.table}"
+        @click="setViewType('table')">Table</button>
+    </div>
 
     <div>
       <svg v-show="viewTypes.svg">
@@ -24,8 +32,10 @@ export default {
   props: {
     data: {
       type: Array,
-      default: [
-        { x: 1, y: 1 },
+      default: () => [
+          { x: 1, y: 1 },
+          { x: 2, y: 1.5 },
+          { x: 3, y: 1.8 },
       ],
     },
     paddings: {
@@ -36,6 +46,11 @@ export default {
         left: 50,
         right: 20,
       }),
+    },
+    // Show svg/table toggle controls
+    controls: {
+      type: Boolean,
+      default: false,
     },
   },
   components: { DataTable },
@@ -53,9 +68,6 @@ export default {
   },
 
   mounted() {
-    // const svgElement = this.$el.querySelector('svg');
-    // svgElement.setAttribute('width', this.$parent.$el.offsetWidth);
-    // svgElement.setAttribute('height', this.$parent.$el.offsetHeight);
     this.renderSvg();
     VstData.createIndexes(this.data);
     this.dataObject = VstData.fillNA(this.data);
@@ -78,8 +90,11 @@ export default {
     },
 
     renderSvg() {
-      this.width = this.$parent.$el.offsetWidth;
-      this.height = this.$parent.$el.offsetHeight;
+      this.width = this.$el.offsetWidth - (this.$el.offsetWidth * 0.2);
+      this.height = this.$el.offsetHeight;
+      if (this.height < (this.width / 4) * 2) {
+        this.height = (this.width / 4) * 2;
+      }
       const svgElement = this.$el.querySelector('svg');
       d3.select(svgElement)
         .attr('width', this.width)
@@ -120,6 +135,11 @@ svg {
   color: white;
   padding: 12px 20px;
   border: 0px;
+  cursor: pointer;
+}
+.vst-btn-disabled {
+  background-color: #555555;
+  color: #bbbbbb;
 }
 
 </style>
