@@ -1,22 +1,26 @@
 <template>
-  <div class="chart-container">
-    <div v-if="controls">
+  <div class="vst-chart-container">
+    <div
+      class="vst-controls"
+      v-if="controls">
       <button
         class="vst-btn"
-        :class="{'vst-btn-disabled': !viewTypes.svg}"
+        :class="{'vst-btn-disabled': !views.svg}"
         @click="setViewType('svg')">Svg</button>
       <button
         class="vst-btn"
-        :class="{'vst-btn-disabled': !viewTypes.table}"
+        :class="{'vst-btn-disabled': !views.table}"
         @click="setViewType('table')">Table</button>
     </div>
 
     <div>
-      <svg v-show="viewTypes.svg">
+      <svg v-show="views.svg">
         <slot></slot>
       </svg>
 
-      <data-table v-if="viewTypes.table" :data="vstData">
+      <data-table
+        v-if="views.table"
+        :data="vstData">
       </data-table>
     </div>
   </div>
@@ -52,12 +56,19 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    views: {
+      type: Object,
+      default: () => ({
+        svg: true,
+        table: false,
+      }),
+    },
   },
   components: { DataTable },
 
   data() {
     return {
-      viewTypes: { svg: true, table: true },
       xScale: null,
       yScale: null,
       height: 400,
@@ -80,17 +91,18 @@ export default {
       VstData.createIndexes(this.data);
       this.vstData = VstData.fillNA(this.data);
       this.lastData = this.data;
+      console.log('chartupdate after fillna', this.vstData.length);
     }
     this.updateSvg();
   },
 
   methods: {
     setViewType(type) {
-      this.viewTypes[type] = !this.viewTypes[type];
+      this.views[type] = !this.views[type];
     },
 
     renderSvg() {
-      this.width = this.$el.offsetWidth - (this.$el.offsetWidth * 0.2);
+      this.width = this.$el.offsetWidth;
       this.height = this.$el.offsetHeight;
       if (this.height < (this.width / 4) * 2) {
         this.height = (this.width / 4) * 2;
@@ -124,7 +136,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-svg {
+.vst-chart-container {
+  box-sizing: border-box;
+}
+
+.vst-controls {
+  margin-bottom: 1em;
+}
+
+.vst-chart-container svg {
   background-color: white;
 }
 

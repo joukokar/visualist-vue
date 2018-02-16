@@ -117,8 +117,12 @@ export default {
 </script>
 
 <style>
+.visualist {
+  padding: 1em 2em;
+  box-sizing: border-box;
+}
+
 svg {
-  margin: 1em;
   box-shadow: 0px 0px 8px 8px #eee;
 }
 </style>

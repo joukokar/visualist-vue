@@ -21,7 +21,7 @@ export default {
 
   watch: {
     // eslint-disable-next-line
-    '$parent.data': function () {
+    '$parent.vstData': function () {
       this.$nextTick(() => {
         this.updateChart();
       });
@@ -46,7 +46,7 @@ export default {
       const xScale = this.$parent.xScale;
       const yScale = this.$parent.yScale;
       const height = this.$parent.height;
-      const data = this.$parent.data;
+      const data = this.$parent.vstData;
 
       const group = d3.select(this.$el);
         // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
