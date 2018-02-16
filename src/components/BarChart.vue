@@ -7,9 +7,12 @@ import * as d3 from 'd3';
 
 export default {
   name: 'bar-chart',
-  props: [
-    'dataKey',
-  ],
+  props: {
+    dataKey: {
+      type: String,
+      default: 'y',
+    },
+  },
 
   mounted() {
     this.renderChart();

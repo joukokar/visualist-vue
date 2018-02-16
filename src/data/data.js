@@ -89,8 +89,8 @@ export default class VstData {
 
     const columnTypes = this.getColumnTypes(data);
 
-    for (let i = xExtent[0]; i < xExtent[1]; i += step) {
-      const existingObject = find(this.data, d => VstData.getValue(d[prop]) === i);
+    for (let i = xExtent[0]; i <= xExtent[1]; i += step) {
+      const existingObject = find(data, d => VstData.getValue(d[prop]) === i);
       let newObject = existingObject;
       if (!newObject) {
         if (columnTypes[prop] === 'Date') {

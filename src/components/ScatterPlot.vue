@@ -7,9 +7,12 @@ import * as d3 from 'd3';
 
 export default {
   name: 'scatter-plot',
-  props: [
-    'dataKey',
-  ],
+  props: {
+    dataKey: {
+      type: String,
+      default: 'y',
+    },
+  },
 
   mounted() {
     this.renderChart();
@@ -21,7 +24,7 @@ export default {
 
   watch: {
     // eslint-disable-next-line
-    '$parent.data': function () {
+    '$parent.vstData': function () {
       this.$nextTick(() => {
         this.updateChart();
       });
@@ -42,7 +45,7 @@ export default {
     },
 
     updateChart() {
-      const data = this.$parent.data;
+      const data = this.$parent.vstData;
       const scatterPlotGroup = d3.select(this.$el);
       const xScale = this.$parent.xScale;
       const yScale = this.$parent.yScale;
