@@ -47,6 +47,7 @@ export default {
       d3.select(this.$el)
         .transition()
         .duration(1000)
+        .attr('transform', `translate(${this.$parent.paddings.left}, 0)`)
         .call(yAxis);
     },
   },

@@ -62,6 +62,7 @@ export default {
       d3.select(this.$el)
         .transition()
         .duration(1000)
+        .attr('transform', `translate(0, ${this.$parent.height - this.$parent.paddings.bottom})`)
         .call(xAxis);
     },
   },
