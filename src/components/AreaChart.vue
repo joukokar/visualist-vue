@@ -16,6 +16,7 @@ export default {
 
   mounted() {
     this.renderChart();
+    this.$on('visualist:chartUpdated', this.updateChart);
   },
 
   updated() {

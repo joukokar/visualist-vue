@@ -91,7 +91,6 @@ export default {
       VstData.createIndexes(this.data);
       this.vstData = VstData.fillNA(this.data);
       this.lastData = this.data;
-      console.log('chartupdate after fillna', this.vstData.length);
     }
     this.updateSvg();
   },
