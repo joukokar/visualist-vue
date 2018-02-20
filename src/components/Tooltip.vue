@@ -7,7 +7,13 @@ import * as d3 from 'd3';
 
 export default {
   name: 'tooltip',
-  props: [],
+  props: {
+    dataKey: {
+      type: String,
+      default: 'y',
+    },
+  },
+
 
   data() {
     return {
@@ -55,7 +61,9 @@ export default {
         // TODO: we should inject empty 0s to data before this can be done reliably.
         const bisector = d3.bisector(d => d[this.$parent.dataX]).left;
 
+        // We need to store these to use them inside function below
         const parentRef = this.$parent;
+        const { dataKey } = this;
 
         tooltipMouseCatcher
           .attr('width', this.$parent.width)
@@ -85,7 +93,7 @@ export default {
             tooltip.style('display', 'block')
               .style('left', `${svgRect.left + shadowPadding + roundedXCoordinate + xOffset}px`)
               .style('top', `${svgRect.top + shadowPadding + y + yOffset}px`)
-              .text(`x: ${data[0][this.$parent.dataX]} y: ${data[0][this.dataKey]}`);
+              .text(`x: ${data[0][parentRef.dataX]} y: ${data[0][dataKey]}`);
             verticalPositionIndicator.style('display', 'block')
               .attr('x1', roundedXCoordinate)
               .attr('x2', roundedXCoordinate);
