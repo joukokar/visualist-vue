@@ -55,22 +55,22 @@ export default {
       const group = d3.select(this.$el);
         // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
 
-      const bars = group.selectAll('rect').data(data, d => d.x);
+      const bars = group.selectAll('rect').data(data, d => d[this.$parent.dataX]);
 
       bars
         .transition()
         .duration(1000)
-          .attr('x', d => xScale(d.x) - 5)
+          .attr('x', d => xScale(d[this.$parent.dataX]) - 5)
           .attr('y', d => yScale(d[this.dataKey]))
-          .attr('width', 10)
+          .attr('width', () => (xScale.bandwidth ? xScale.bandwidth() : 10))
           .attr('height', d => height - yScale(d[this.dataKey]) - this.$parent.paddings.bottom);
 
       bars
         .enter()
         .append('rect')
-        .attr('x', d => xScale(d.x) - 5)
+        .attr('x', d => xScale(d[this.$parent.dataX]) - 5)
         .attr('y', d => yScale(d[this.dataKey]))
-        .attr('width', 10)
+        .attr('width', () => (xScale.bandwidth ? xScale.bandwidth() : 10))
         .attr('height', d => height - yScale(d[this.dataKey]) - this.$parent.paddings.bottom)
         .style('opacity', 1);
 
@@ -89,9 +89,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../assets/colors.scss';
 g.chart-bar {
   rect {
-    fill: #86b65c;
+    fill: $vstColor1;
     stroke-width: 0;
   }
 }

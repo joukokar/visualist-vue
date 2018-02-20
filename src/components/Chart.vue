@@ -28,6 +28,7 @@
 
 <script>
 import * as d3 from 'd3';
+import map from 'lodash/map';
 import VstData from '../data/data';
 import DataTable from './DataTable';
 
@@ -41,6 +42,14 @@ export default {
           { x: 2, y: 1.5 },
           { x: 3, y: 1.8 },
       ],
+    },
+    dataX: {
+      type: String,
+      default: 'x',
+    },
+    dataKey: {
+      type: String,
+      default: 'y',
     },
     paddings: {
       type: Object,
@@ -81,7 +90,7 @@ export default {
   mounted() {
     this.renderSvg();
     VstData.createIndexes(this.data);
-    this.vstData = VstData.fillNA(this.data);
+    this.vstData = VstData.fillNA(this.data, this.dataX);
     this.$on('visualist:update', this.renderSvg);
   },
 
@@ -89,7 +98,7 @@ export default {
     // TODO: add flag to do this only once
     if (this.data !== this.lastData) {
       VstData.createIndexes(this.data);
-      this.vstData = VstData.fillNA(this.data);
+      this.vstData = VstData.fillNA(this.data, this.dataX);
       this.lastData = this.data;
     }
     this.updateSvg();
@@ -106,25 +115,45 @@ export default {
       if (this.height < (this.width / 4) * 2) {
         this.height = (this.width / 4) * 2;
       }
+
+
       const svgElement = this.$el.querySelector('svg');
       d3.select(svgElement)
         .attr('width', this.width)
         .attr('height', this.height);
-      this.xScale = d3.scaleLinear()
-        .range([0 + this.paddings.left, this.width - this.paddings.right]);
       this.yScale = d3.scaleLinear()
         .range([this.height - this.paddings.bottom, 0 + this.paddings.top]);
 
+      this.createXScale();
+
       this.updateSvg();
+    },
+
+    createXScale() {
+      const columnTypes = VstData.getColumnTypes(this.data);
+      const xScaleType = columnTypes[this.dataX] === 'String' ?
+        'scaleBand' : 'scaleLinear';
+      this.xScale = d3[xScaleType]();
+
+      this.xScale.range([0 + this.paddings.left, this.width - this.paddings.right]);
     },
 
     updateSvg() {
       if (!this.data) {
         return;
       }
-      // move these to update
-      this.xScale.domain(d3.extent(this.data, d => d.x));
-      this.yScale.domain([0, d3.max(this.data, d => d.y)]);
+      const columnTypes = VstData.getColumnTypes(this.data);
+
+      if (columnTypes[this.dataX] === 'String') {
+        const xScaleValues = map(this.data, d => d[this.dataX]);
+        this.xScale.domain(xScaleValues)
+          .paddingInner(0.3)
+          .paddingOuter(0.3);
+      } else {
+        this.xScale.domain(d3.extent(this.data, d => d[this.dataX]));
+      }
+
+      this.yScale.domain([0, d3.max(this.data, d => d[this.dataKey])]);
       this.$children.forEach((child) => {
         child.$emit('visualist:chartUpdated');
       });

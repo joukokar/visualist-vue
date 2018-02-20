@@ -53,7 +53,7 @@ export default {
         const xOffset = 30;
 
         // TODO: we should inject empty 0s to data before this can be done reliably.
-        const bisector = d3.bisector(d => d.x).left;
+        const bisector = d3.bisector(d => d[this.$parent.dataX]).left;
 
         const parentRef = this.$parent;
 
@@ -85,7 +85,7 @@ export default {
             tooltip.style('display', 'block')
               .style('left', `${svgRect.left + shadowPadding + roundedXCoordinate + xOffset}px`)
               .style('top', `${svgRect.top + shadowPadding + y + yOffset}px`)
-              .text(`x: ${data[0].x} y: ${data[0].y}`);
+              .text(`x: ${data[0][this.$parent.dataX]} y: ${data[0][this.dataKey]}`);
             verticalPositionIndicator.style('display', 'block')
               .attr('x1', roundedXCoordinate)
               .attr('x2', roundedXCoordinate);

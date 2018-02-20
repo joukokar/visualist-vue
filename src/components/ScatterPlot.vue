@@ -51,18 +51,18 @@ export default {
       const xScale = this.$parent.xScale;
       const yScale = this.$parent.yScale;
 
-      const circles = scatterPlotGroup.selectAll('circle').data(data, d => d.x);
+      const circles = scatterPlotGroup.selectAll('circle').data(data, d => d[this.$parent.dataX]);
 
       circles
         .transition()
         .duration(1000)
-        .attr('cx', d => xScale(d.x))
+        .attr('cx', d => xScale(d[this.$parent.dataX]))
         .attr('cy', d => yScale(d[this.dataKey]));
 
       circles
         .enter()
         .append('circle')
-        .attr('cx', d => xScale(d.x))
+        .attr('cx', d => xScale(d[this.$parent.dataX]))
         .attr('cy', d => yScale(d[this.dataKey]))
         .attr('r', 4)
         .style('opacity', 1);

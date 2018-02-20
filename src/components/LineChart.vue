@@ -69,7 +69,7 @@ export default {
 
       return d3.line()
         .curve(d3.curveCatmullRom.alpha(0.5))
-        .x(d => xScale(d.x))
+        .x(d => xScale(d[this.$parent.dataX]))
         .y(d => yScale(d[this.dataKey]))(data);
     },
 

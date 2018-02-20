@@ -83,11 +83,15 @@ export default class VstData {
     const xExtent = d3.extent(xValues);
     const newData = [];
 
+    const columnTypes = this.getColumnTypes(data);
+    if (columnTypes[prop] === 'String') {
+      return data;
+    }
+
     const allKeys = VstData.getAllKeys(data);
 
     const step = VstData.figureMinStepOfData(data, prop);
 
-    const columnTypes = this.getColumnTypes(data);
 
     for (let i = xExtent[0]; i <= xExtent[1]; i += step) {
       const existingObject = find(data, d => VstData.getValue(d[prop]) === i);

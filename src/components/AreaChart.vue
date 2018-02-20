@@ -69,7 +69,7 @@ export default {
 
       const area = d3.area()
         .curve(d3.curveCatmullRom.alpha(0.5))
-        .x(d => xScale(d.x))
+        .x(d => xScale(d[this.$parent.dataX]))
         .y0(() => this.$parent.height - this.$parent.paddings.bottom)
         .y1(d => yScale(d[this.dataKey]));
       return area(data);

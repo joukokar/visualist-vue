@@ -14,8 +14,6 @@
     <button @click="update">Update</button>
     <button @click="add">Add</button>
 
-    <hr>
-
     <chart :data="data2">
       <x-axis></x-axis>
       <y-axis></y-axis>
@@ -25,6 +23,17 @@
       <scatter-plot data-key="y"></scatter-plot>
       <scatter-plot data-key="y2"></scatter-plot>
       <tooltip></tooltip>
+    </chart>
+
+    <chart
+      :data="data3"
+      data-x="category"
+      data-key="value">
+      <x-axis></x-axis>
+      <y-axis></y-axis>
+      <bar-chart data-key="value"></bar-chart>
+      <!-- TODO: does not work with ordinal scale -->
+      <!-- <tooltip></tooltip> -->
     </chart>
   </div>
 </template>
@@ -76,6 +85,12 @@ export default {
         { x: 11, y: 7, y2: Math.random() * 5 },
         { x: 14, y: 11, y2: Math.random() * 5 },
       ],
+      data3: [
+        { category: 'something', value: 29 },
+        { category: 'somethingElse', value: 35 },
+        { category: 'this', value: 72 },
+        { category: 'that', value: 66 },
+      ],
     };
   },
 
@@ -99,6 +114,7 @@ export default {
           d.y2 = 0;
         }
       });
+      this.data = merge([], this.data);
     },
 
     add() {
@@ -116,10 +132,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import '../assets/colors.scss';
+
 .visualist {
   padding: 1em 2em;
   box-sizing: border-box;
+  width: 800px;
+  text-align: center;
 }
 
 svg {
