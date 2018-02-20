@@ -41,8 +41,6 @@ export default {
         if (!this.$parent.data || !this.$parent.xScale || !this.$parent.yScale) {
           return;
         }
-        // const lineChartGroup = d3.select(this.$el);
-          // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
 
         this.updateChart();
       });
@@ -64,8 +62,7 @@ export default {
     },
 
     createArea(data) {
-      const xScale = this.$parent.xScale;
-      const yScale = this.$parent.yScale;
+      const { xScale, yScale } = this.$parent;
 
       const area = d3.area()
         .curve(d3.curveCatmullRom.alpha(0.5))

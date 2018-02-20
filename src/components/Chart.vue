@@ -38,9 +38,9 @@ export default {
     data: {
       type: Array,
       default: () => [
-          { x: 1, y: 1 },
-          { x: 2, y: 1.5 },
-          { x: 3, y: 1.8 },
+        { x: 1, y: 1 },
+        { x: 2, y: 1.5 },
+        { x: 3, y: 1.8 },
       ],
     },
     dataX: {

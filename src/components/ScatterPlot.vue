@@ -38,8 +38,6 @@ export default {
         if (!this.$parent.data || !this.$parent.xScale || !this.$parent.yScale) {
           return;
         }
-        // const scatterPlotGroup = d3.select(this.$el);
-          // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
 
         this.updateChart();
       });
@@ -48,8 +46,7 @@ export default {
     updateChart() {
       const data = this.$parent.vstData;
       const scatterPlotGroup = d3.select(this.$el);
-      const xScale = this.$parent.xScale;
-      const yScale = this.$parent.yScale;
+      const { xScale, yScale } = this.$parent;
 
       const circles = scatterPlotGroup.selectAll('circle').data(data, d => d[this.$parent.dataX]);
 

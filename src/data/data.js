@@ -126,5 +126,4 @@ export default class VstData {
     const keysInData = map(data, d => keys(d));
     return filter(uniq(flatten(keysInData)), d => !d.startsWith('$'));
   }
-
 }

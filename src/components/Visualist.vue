@@ -71,7 +71,12 @@ export default {
     return {
       data: map(r, (i) => {
         const y2 = Math.random() * 5;
-        return { $$index: i, x: moment().subtract(20 - i, 'days').startOf('day').toDate(), y: i, y2 };
+        return {
+          $$index: i,
+          x: moment().subtract(20 - i, 'days').startOf('day').toDate(),
+          y: i,
+          y2,
+        };
       }),
       data2: [
         { x: 0, y: 1, y2: Math.random() * 5 },

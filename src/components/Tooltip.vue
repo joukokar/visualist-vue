@@ -33,7 +33,7 @@ export default {
           .style('display', 'none')
           .text('');
 
-        const xScale = this.$parent.xScale;
+        const { xScale } = this.$parent;
         const tooltipLayer = d3.select(this.$el);
         const tooltipMouseCatcher = tooltipLayer.append('rect');
 

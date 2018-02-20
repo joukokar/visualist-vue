@@ -40,30 +40,28 @@ export default {
         }
 
         // const group = d3.select(this.$el);
-          // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
+        // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
 
         this.updateChart();
       });
     },
 
     updateChart() {
-      const xScale = this.$parent.xScale;
-      const yScale = this.$parent.yScale;
-      const height = this.$parent.height;
+      const { height, xScale, yScale } = this.$parent;
       const data = this.$parent.vstData;
 
       const group = d3.select(this.$el);
-        // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
+      // .attr('transform', `translate(0, ${this.$parent.paddings.top})`);
 
       const bars = group.selectAll('rect').data(data, d => d[this.$parent.dataX]);
 
       bars
         .transition()
         .duration(1000)
-          .attr('x', d => xScale(d[this.$parent.dataX]) - 5)
-          .attr('y', d => yScale(d[this.dataKey]))
-          .attr('width', () => (xScale.bandwidth ? xScale.bandwidth() : 10))
-          .attr('height', d => height - yScale(d[this.dataKey]) - this.$parent.paddings.bottom);
+        .attr('x', d => xScale(d[this.$parent.dataX]) - 5)
+        .attr('y', d => yScale(d[this.dataKey]))
+        .attr('width', () => (xScale.bandwidth ? xScale.bandwidth() : 10))
+        .attr('height', d => height - yScale(d[this.dataKey]) - this.$parent.paddings.bottom);
 
       bars
         .enter()
